@@ -1,9 +1,12 @@
 package io.github.axolotlclient;
 
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
 public class MinecraftVersion {
+
+    public static Set<MinecraftVersion> versions = new HashSet<>();
 
     private final String version;
     private final String[] mods;
@@ -16,7 +19,9 @@ public class MinecraftVersion {
     }
 
     public static MinecraftVersion of(String version, String loader, String... mods){
-        return new MinecraftVersion(version, loader, mods);
+        MinecraftVersion v = new MinecraftVersion(version, loader, mods);
+        versions.add(v);
+        return v;
     }
 
     public String getVersion(){
@@ -48,8 +53,6 @@ public class MinecraftVersion {
             "axolotlclient", "fabric-api");*/
     public static MinecraftVersion MC189 = MinecraftVersion.of("1.8.9", "fabric",
             "legacy-fabric-api", "axolotlclient");
-
-    public static Set<MinecraftVersion> versions = Set.of(MC1193, MC1192, MC1165, MC189);
 
     public static Optional<MinecraftVersion> get(String version){
         return versions.stream().filter(s -> s.getVersion().equals(version)).findFirst();

@@ -20,11 +20,13 @@ public class ModpackUpdater {
 
     private void update() {
         try {
-            updateModpackVersion();
+            if(Modpack.INCREMENT_VERSION) {
+                updateModpackVersion();
+            }
             new ProcessBuilder().command("packwiz", "update", "--all", "-y").inheritIO().directory(dir).start().waitFor();
             for(String s:version.getMods()){
                 if(!dir.toPath().resolve("mods").resolve(s+".pw.toml").toFile().exists()){
-                    new ProcessBuilder().inheritIO().command("packwiz", "modrinth", "install", s, "-y").directory(dir).start().waitFor();
+                    Modpack.installMod(dir, s);
                 }
             }
         } catch (IOException | InterruptedException e) {

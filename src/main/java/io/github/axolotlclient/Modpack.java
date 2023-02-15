@@ -1,17 +1,21 @@
 package io.github.axolotlclient;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class Modpack {
 
-    public static String NAME = "AxolotlClient (Modpack)";
-    public static String AUTHOR = "moehreag";
-    public static String BASE_VERSION = "0.1.0-beta.1";
+    // ---- Options
+    public static final String NAME = "AxolotlClient (Modpack)";
+    public static final String AUTHOR = "moehreag";
+    public static final String BASE_VERSION = "0.1.0-beta.1"; // Minecraft version is appended afterwards
+    public static final boolean INCREMENT_VERSION = true;
+    public static final boolean EXPORT_PACK = true;
 
+    // ---- The stuff
     public static void main(String[] args){
         if(args.length == 0){
             MinecraftVersion.versions.forEach(Modpack::processVersion);
@@ -30,11 +34,13 @@ public class Modpack {
             System.out.println("Updating Modpack for version "+s.getVersion());
             new ModpackUpdater(file, s);
         } else {
-            System.out.println("creating modpack for version "+s.getVersion());
+            System.out.println("Creating modpack for version "+s.getVersion());
             new ModpackCreator(s);
         }
-        System.out.println("Exporting modpack for version "+s.getVersion());
-        exportPack(file);
+        if(EXPORT_PACK) {
+            System.out.println("Exporting modpack for version " + s.getVersion());
+            exportPack(file);
+        }
     }
 
     private static void exportPack(File dir){
@@ -43,5 +49,22 @@ public class Modpack {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    static int installMod(File dir, String slug) throws IOException {
+        System.out.println("Installing mod "+slug);
+        Process proc = new ProcessBuilder().redirectError(ProcessBuilder.Redirect.INHERIT).command("packwiz", "modrinth", "install", slug).directory(dir).start();
+        InputStreamReader reader = new InputStreamReader(proc.getInputStream(), StandardCharsets.UTF_8);
+        try (PrintWriter writer = new PrintWriter(proc.outputWriter(StandardCharsets.UTF_8), true)) {
+            StringBuilder output = new StringBuilder();
+            while (proc.isAlive()) {
+                output.append((char) reader.read());
+                if (output.toString().endsWith("Would you like to add them? [Y/n]: ")) {
+                    writer.println("n");
+                }
+            }
+        }
+        System.out.println("Installed mod "+slug+"!");
+        return proc.exitValue();
     }
 }

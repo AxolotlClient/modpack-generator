@@ -36,6 +36,18 @@ public class MinecraftVersion {
         return loader;
     }
 
+    public static MinecraftVersion MC120 = MinecraftVersion.of("1.20.1", "quilt",
+            "qsl", "sodium", "lithium",
+            "lambdabettergrass", "axolotlclient", "lambdynamiclights", "modmenu",
+            "iris", "ferrite-core", "indium", "polymer", "dynamic-fps", "sodium-extra", "reeses-sodium-options",
+            "no-telemetry");
+
+    public static MinecraftVersion MC1194 = MinecraftVersion.of("1.19.4", "quilt",
+            "qsl", "sodium", "lithium", "starlight",
+            "lambdabettergrass", "axolotlclient", "lambdynamiclights", "modmenu",
+            "iris", "ferrite-core", "indium", "polymer", "dynamic-fps", "sodium-extra", "reeses-sodium-options",
+            "no-telemetry");
+
     public static MinecraftVersion MC1193 = MinecraftVersion.of("1.19.3", "quilt",
             "qsl", "sodium", "lithium", "starlight",
             "lambdabettergrass", "axolotlclient", "lambdynamiclights", "modmenu",

@@ -11,8 +11,8 @@ public class Modpack {
     // ---- Options
     public static final String NAME = "AxolotlClient (Modpack)";
     public static final String AUTHOR = "moehreag";
-    public static final String BASE_VERSION = "0.1.0-beta.1"; // Minecraft version is appended afterwards
-    public static final boolean INCREMENT_VERSION = true;
+    public static final String BASE_VERSION = "0.1.0-beta.3"; // Minecraft version is appended afterwards
+    public static final boolean INCREMENT_VERSION = false;
     public static final boolean EXPORT_PACK = true;
 
     // ---- The stuff

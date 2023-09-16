@@ -23,6 +23,7 @@ public class ModpackUpdater {
             if(Modpack.INCREMENT_VERSION) {
                 updateModpackVersion();
             }
+            new ProcessBuilder().command("packwiz", "refresh", "-y").inheritIO().directory(dir).start().waitFor();
             new ProcessBuilder().command("packwiz", "update", "--all", "-y").inheritIO().directory(dir).start().waitFor();
             for(String s:version.getMods()){
                 if(!dir.toPath().resolve("mods").resolve(s+".pw.toml").toFile().exists()){

@@ -2,6 +2,8 @@ package io.github.axolotlclient;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -11,8 +13,8 @@ public class Modpack {
     // ---- Options
     public static final String NAME = "AxolotlClient (Modpack)";
     public static final String AUTHOR = "moehreag";
-    public static final String BASE_VERSION = "0.1.0-beta.3"; // Minecraft version is appended afterwards
-    public static final boolean INCREMENT_VERSION = false;
+    public static final String BASE_VERSION = "0.1.0"; // Minecraft version is appended afterwards
+    public static final boolean CLEAR_ON_UPDATE = true;
     public static final boolean EXPORT_PACK = true;
 
     // ---- The stuff
@@ -29,6 +31,28 @@ public class Modpack {
     }
 
     private static void processVersion(MinecraftVersion s){
+        if (CLEAR_ON_UPDATE){
+            Path f = Paths.get(s.getVersion());
+            try {
+                if (Files.exists(f)) {
+                    Files.walkFileTree(f, new SimpleFileVisitor<>() {
+                        @Override
+                        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                            Files.delete(file);
+                            return super.visitFile(file, attrs);
+                        }
+
+                        @Override
+                        public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+                            Files.delete(dir);
+                            return FileVisitResult.CONTINUE;
+                        }
+                    });
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
         File file = new File(s.getVersion());
         if(file.exists()){
             System.out.println("Updating Modpack for version "+s.getVersion());

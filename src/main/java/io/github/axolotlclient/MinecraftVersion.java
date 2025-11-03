@@ -36,10 +36,10 @@ public class MinecraftVersion {
         return loader;
     }
 
-    public static MinecraftVersion MC1214 = MinecraftVersion.of("1.21.4", "fabric",
+    public static MinecraftVersion MC12110 = MinecraftVersion.of("1.21.10", "fabric",
             "fabric-api", "sodium", "lithium", "axolotlclient", "modmenu", "iris",
             "ferrite-core", "polymer", "sodium-extra", "reeses-sodium-options",
-            "no-telemetry", "noxesium", "world-host");
+            "no-telemetry");
 
     public static MinecraftVersion MC121 = MinecraftVersion.of("1.21.1", "fabric",
             "fabric-api", "sodium", "lithium", "axolotlclient", "modmenu", "iris",
@@ -50,12 +50,10 @@ public class MinecraftVersion {
             "qsl", "sodium", "lithium",
             "axolotlclient", "modmenu",
             "iris", "ferrite-core", "indium", "polymer", "dynamic-fps", "sodium-extra", "reeses-sodium-options",
-            "no-telemetry");
+            "no-telemetry", "e4mc");
 
-    /*public static MinecraftVersion MC116_combat8c = MinecraftVersion.of("1.16_combat-6", false, "fabric", // NOT AVAILABLE ON MODRINTH
-            "axolotlclient", "fabric-api");*/
-    public static MinecraftVersion MC189 = MinecraftVersion.of("1.8.9", "fabric",
-            "osl", "axolotlclient");
+    /*public static MinecraftVersion MC189 = MinecraftVersion.of("1.8.9", "ornithe", // the ornithe "loader" is not supported by mrpacks
+            "osl", "axolotlclient", "moehreag-legacy-lwjgl3", "soundfix");*/
 
     public static Optional<MinecraftVersion> get(String version){
         return versions.stream().filter(s -> s.getVersion().equals(version)).findFirst();
